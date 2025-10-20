@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: notify-backend
+    runtime: java
+    plan: free
+    buildCommand: ./mvnw clean package -DskipTests
+    startCommand: java -Xmx450m -Xms256m -XX:+UseG1GC -Dserver.port=$PORT -jar target/notes-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
+      - key: DATABASE_URL
+        sync: false # Add manually - get from Neon
+      - key: DATABASE_USERNAME
+        sync: false # Add manually - get from Neon
+      - key: DATABASE_PASSWORD
+        sync: false # Add manually - get from Neon
+      - key: JWT_SECRET
+        generateValue: true # Render will auto-generate
+      - key: FRONTEND_URL
+        value: https://your-app.vercel.app # UPDATE THIS after frontend deployment
+      - key: MAIL_USERNAME
+        value: resend
+      - key: MAIL_PASSWORD
+        sync: false # Add manually - Resend API key
+      - key: GITHUB_CLIENT_ID
+        sync: false # Add manually
+      - key: GITHUB_CLIENT_SECRET
+        sync: false # Add manually
+      - key: GOOGLE_CLIENT_ID
+        sync: false # Add manually
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false # Add manually
