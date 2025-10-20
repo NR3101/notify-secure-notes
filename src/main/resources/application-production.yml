@@ -38,6 +38,9 @@ spring:
           starttls:
             enable: true
             required: true
+          connectiontimeout: 12000  # 12 seconds
+          timeout: 12000            # 12 seconds
+          writetimeout: 12000       # 12 seconds
         transport:
           protocol: smtp
     default-encoding: UTF-8
@@ -90,9 +93,9 @@ management:
       show-details: when-authorized
   health:
     mail:
-      enabled: false  # Disable mail health check - Render blocks SMTP port 587
+      enabled: false # Disable mail health check - Render blocks SMTP port 587
     db:
-      enabled: true   # Keep database health check enabled
+      enabled: true # Keep database health check enabled
 
 logging:
   level:
