@@ -88,6 +88,11 @@ management:
     health:
       enabled: true
       show-details: when-authorized
+  health:
+    mail:
+      enabled: false  # Disable mail health check - Render blocks SMTP port 587
+    db:
+      enabled: true   # Keep database health check enabled
 
 logging:
   level:
