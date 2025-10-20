@@ -1,7 +1,6 @@
 services:
   - type: web
     name: notify-backend
-    runtime: java
     plan: free
     buildCommand: ./mvnw clean package -DskipTests
     startCommand: java -Xmx450m -Xms256m -XX:+UseG1GC -Dserver.port=$PORT -jar target/notes-0.0.1-SNAPSHOT.jar
