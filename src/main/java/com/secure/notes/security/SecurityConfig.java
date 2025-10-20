@@ -53,14 +53,12 @@ public class SecurityConfig {
     // Security configuration for Basic Authentication
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) throws Exception {
-        // Enable CSRF protection with CookieCsrfTokenRepository
         http
                 // Enable CORS with custom configuration
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf ->
-                        csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                                // Disable CSRF for auth endpoints
-                                .ignoringRequestMatchers("/api/v1/auth/public/**"));
+                // Disable CSRF for stateless JWT authentication
+                // JWT tokens themselves prevent CSRF attacks
+                .csrf(csrf -> csrf.disable());
         http.authorizeHttpRequests(requests
                         -> requests
                         .requestMatchers("/api/v1/csrf-token").permitAll()
