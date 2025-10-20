@@ -1,0 +1,10 @@
+# Render Cron Job Configuration
+# This keeps the backend awake by pinging it every 14 minutes
+# Prevents the free instance from spinning down
+
+services:
+  - type: cron
+    name: keep-backend-alive
+    env: docker
+    schedule: "*/14 * * * *" # Every 14 minutes
+    dockerCommand: curl https://notify-secure-notes.onrender.com/actuator/health || echo "Backend ping failed"
