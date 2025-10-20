@@ -154,7 +154,21 @@ public class UserServiceImpl implements UserService {
         passwordResetTokenRepository.save(passwordResetToken);
 
         String resetLink = frontendUrl + "/reset-password?token=" + token;
-        emailService.sendPasswordResetEmail(email, resetLink);
+        
+        // TODO: Replace with Resend HTTP API - SMTP port 587 blocked on Render free tier
+        // Temporary workaround: Log the reset link instead of sending email
+        try {
+            emailService.sendPasswordResetEmail(email, resetLink);
+        } catch (Exception e) {
+            // SMTP blocked on Render - log the reset link for development/testing
+            System.out.println("======================================");
+            System.out.println("PASSWORD RESET LINK (Email not sent - SMTP blocked):");
+            System.out.println("Email: " + email);
+            System.out.println("Reset Link: " + resetLink);
+            System.out.println("Token: " + token);
+            System.out.println("======================================");
+            // Don't throw exception - allow the process to complete
+        }
     }
 
     @Override
