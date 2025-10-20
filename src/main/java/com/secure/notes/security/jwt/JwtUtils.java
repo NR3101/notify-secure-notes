@@ -31,10 +31,13 @@ public class JwtUtils {
 
     public String getJwtFromHeader(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        logger.debug("Authorization Header: {}", bearerToken);
+        logger.info("Authorization Header: {}", bearerToken != null ? "Bearer ***" : "NULL");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7); // Remove Bearer prefix
+            String token = bearerToken.substring(7);
+            logger.info("JWT Token extracted from header, length: {}", token.length());
+            return token;
         }
+        logger.warn("No valid Bearer token found in Authorization header");
         return null;
     }
 
@@ -67,8 +70,9 @@ public class JwtUtils {
 
     public boolean validateJwtToken(String authToken) {
         try {
-            System.out.println("Validate");
+            logger.info("Validating JWT token...");
             Jwts.parser().verifyWith((SecretKey) key()).build().parseSignedClaims(authToken);
+            logger.info("JWT token is valid");
             return true;
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
