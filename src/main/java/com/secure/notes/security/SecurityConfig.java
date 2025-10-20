@@ -66,6 +66,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/csrf-token").permitAll()
                         .requestMatchers("/api/v1/auth/public/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
+                        .requestMatchers("/login/oauth2/**").permitAll()
                         // URL based security(dont prefix role with "ROLE_" as Spring Security does that automatically)
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
