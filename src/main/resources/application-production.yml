@@ -78,6 +78,17 @@ server:
 frontend:
   url: ${FRONTEND_URL}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /actuator
+  endpoint:
+    health:
+      enabled: true
+      show-details: when-authorized
+
 logging:
   level:
     root: INFO
